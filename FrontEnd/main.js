@@ -33,76 +33,35 @@ for (let element of works) {
 /* Implémentation des fonctions de filtres sur les boutons correspondants */
 
 const btn1 = document.querySelector("#btn1");
-btn1.addEventListener("click", function() {
-    for ( let button of buttons) {
-        button.style.backgroundColor = "white";
-        button.style.color = "#1D6154";
-    };
-    this.style.backgroundColor = "#1D6154";
-    this.style.color = "white";
-    document.querySelector(".gallery").innerHTML = "";
-    for (let element of works) {
-        genererElement(element)
-    }
-});
-
 const btn2 = document.querySelector("#btn2");
-btn2.addEventListener("click", function() {
-    for ( let button of buttons) {
-        button.style.backgroundColor = "white";
-        button.style.color = "#1D6154";
-    };
-    this.style.backgroundColor = "#1D6154";
-    this.style.color = "white";
-    document.querySelector(".gallery").innerHTML = "";
-    for ( let item of works ) {
-        if (item.category.name !== btn2.value) {
-            console.log("Element trier")
-        } else {
-            genererElement(item)
-        }
-    }
-});
-
 const btn3 = document.querySelector("#btn3");
-btn3.addEventListener("click", function() {
-    for ( let button of buttons) {
-        button.style.backgroundColor = "white";
-        button.style.color = "#1D6154";
-    };
-    this.style.backgroundColor = "#1D6154";
-    this.style.color = "white";
-    document.querySelector(".gallery").innerHTML = "";
-    for ( let item of works ) {
-        if (item.category.name !== btn3.value) {
-            console.log("Element trier")
-        } else {
-            genererElement(item)
-        }
-    }
-});
-
 const btn4 = document.querySelector("#btn4");
-btn4.addEventListener("click", function() {
-    for ( let button of buttons) {
-        button.style.backgroundColor = "white";
-        button.style.color = "#1D6154";
-    };
-    this.style.backgroundColor = "#1D6154";
-    this.style.color = "white";
-    document.querySelector(".gallery").innerHTML = "";
-    for ( let item of works ) {
-        if (item.category.name !== btn4.value) {
-            console.log("Element trier")
-        } else {
-            genererElement(item)
-        }
-    }
-});
+const buttons = [btn1, btn2, btn3, btn4];
 
-const buttons = [btn1, btn2 ,btn3, btn4];
+for (let button of buttons) {
+    button.addEventListener("click", function () {
+        for (let button of buttons) {
+            button.style.backgroundColor = "white";
+            button.style.color = "#1D6154";
+        };
+        button.style.backgroundColor = "#1D6154";
+        button.style.color = "white";
+        if (button === btn1) {
+            document.querySelector(".gallery").innerHTML = "";
+            for (let element of works) {
+                genererElement(element)
+            }
+        } else {
+            document.querySelector(".gallery").innerHTML = "";
+            for (let item of works) {
+                if (item.category.name !== button.value) {
+                    console.log("Element trier")
+                } else {
+                    genererElement(item)
+                }
+            }
+        }
+    })
+};
 
 /* - */
-
-
-
