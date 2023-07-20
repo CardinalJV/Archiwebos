@@ -1,0 +1,170 @@
+html {
+	background-color: ivory;
+}
+
+header {
+	display: flex;
+	justify-content: space-between;
+	width: 1140px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 30px;
+}
+
+h1 {
+	display: flex;
+	flex-direction: column;
+	font-family: 'Syne';
+	font-size: 22px;
+	font-weight: 800;
+	color: #B1663C;
+}
+
+body {
+	height: 1388px;
+	margin:auto;
+	font-family: 'Work Sans' ;
+	font-size: 14px;
+	display: flex;
+	flex-direction: column;
+}
+
+h1 > span {
+	font-family: 'Work Sans';
+	font-size:10px;
+	letter-spacing: 0.1em;
+}
+
+nav ul {
+	display: flex;
+	align-items: center;
+	list-style-type: none;
+}
+
+nav li {
+	padding: 0 10px;
+	font-size: 1.2em;
+}
+
+#log {
+	font-weight: bolder;
+}
+
+#log:hover {
+	color: black;
+	cursor: no-drop;
+}
+
+li:hover {
+	color: #B1663C;
+	cursor: pointer;
+}
+
+main {
+	margin-top: 300px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 1140px;
+}
+
+form {
+	height: 500px;
+	width: 400px;
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-around;
+}
+
+form h2 {
+	width: 100%;
+	text-align: center;
+	font-family: 'Syne';
+	color: #1D6154;
+	font-size: 30px;
+	margin: 0px;
+}
+
+.user-entry {
+	width: 100%;
+	text-align: center;
+}
+
+.user-entry h3 {
+	margin: 0px;
+	margin-bottom: 5px;
+	text-align: left;
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.user-entry div {
+	box-shadow: 5px 8px 20px 4px lightgrey;
+	height: 45px;
+}
+
+.user-entry input {
+	width: 100%;
+	padding: 5px;
+	margin: 0px;
+	height: 100%;
+	font-size: 16px;
+	border-style: none;
+}
+
+form>div:last-child {
+	height: 95px;
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+	justify-content: center;
+	align-content: space-between;
+}
+
+form>div:last-child p {
+	width: 100%;
+	text-align: center;
+}
+
+form>div:last-child p:hover {
+	text-decoration-line: underline;
+	cursor: pointer;
+}
+
+#submit {
+	width: 175px;
+	height: 40px;
+	border-radius: 20px;
+	border-style: none;
+	font-family: 'Syne';
+	font-size: 16px;
+	font-weight: lighter;
+	color: white;
+	background-color: #1D6154;
+}
+
+#submit:hover {
+	cursor: pointer;
+}
+
+footer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 65px;
+	background-color: white;
+	margin-top: 420px;
+	width: 100%;
+	text-align: right;
+}
+
+footer p {
+	width: 1140px;
+	font-size: 16px;
+}
+
+footer p:hover {
+	cursor: pointer;
+	text-decoration-line: underline;
+}
