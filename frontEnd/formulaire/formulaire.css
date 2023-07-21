@@ -52,7 +52,7 @@ nav li {
 
 #log:hover {
 	color: black;
-	cursor: no-drop;
+	cursor: text;
 }
 
 li:hover {
