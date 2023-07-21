@@ -1,4 +1,5 @@
 /* Récupération des travaux depuis l'API */
+
 function genererElement(element) {
     console.log(element);
     const gallery = document.querySelector(".gallery");
@@ -12,17 +13,12 @@ function genererElement(element) {
     figure.appendChild(titleElement);
 }
 
-let works;
-
-await fetch("http://localhost:5678/api/works")
-    .then(response => response.json())
-    .then(data => {
-        works = data
-    });
+const response = await fetch("http://localhost:5678/api/works");
+let works = await response.json();
 
 /* - */
 
-/* Génération des travaux dans le HTML */
+/* Génération des travaux dans sur la page d'accueil */
 
 for (let element of works) {
     genererElement(element)
@@ -63,5 +59,52 @@ for (let button of buttons) {
         }
     })
 };
+
+/* - */
+
+/* Ajout du mode édition après vérification du token */
+
+function editHomepage() {
+
+    const body = document.querySelector("body");
+    const header = document.querySelector("header");
+    const section = document.createElement("section");
+    section.setAttribute("id", "edit-homepage");
+    body.insertBefore(section, header);
+    const div = document.createElement("div");
+    section.appendChild(div);
+    const i = document.createElement("i");
+    i.setAttribute("class", "fa-regular fa-pen-to-square");
+    div.appendChild(i);
+    const h2 = document.createElement("h2");
+    h2.innerText = "Mode édition";
+    div.appendChild(h2);
+    const button = document.createElement("button");
+    button.innerText = "publier les changements";
+    div.appendChild(button);
+
+    const login = document.querySelector("#log");
+    login.innerText = "logout";
+    login.addEventListener("click", function(){
+        localStorage.removeItem("mon_token")
+    });
+
+    const portfolio = document.querySelector("#portfolio");
+    const filter = document.querySelector("#filter");
+    const addProjects = document.createElement("div");
+    addProjects.setAttribute("id", "add-projects");
+    portfolio.insertBefore(addProjects, filter);
+    const i_clone = document.createElement("i");
+    i_clone.setAttribute("class", "fa-regular fa-pen-to-square");
+    addProjects.appendChild(i_clone);
+    const p = document.createElement("p");
+    p.innerText = "modifier";
+    addProjects.appendChild(p);
+
+};
+
+if (localStorage.getItem("mon_token")) {
+    editHomepage()
+}
 
 /* - */
