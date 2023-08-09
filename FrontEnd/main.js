@@ -15,6 +15,7 @@ function genererElement(element) {
 
 let response = await fetch("http://localhost:5678/api/works");
 let works = await response.json();
+console.log(works);
 
 const categories = await fetch("http://localhost:5678/api/categories");
 const workCategories = await categories.json();
@@ -24,88 +25,38 @@ console.log(workCategories);
 
 /* Génération des travaux et des boutons de filtres sur la page d'accueil */
 
-const filter = document.querySelector("#filter");
-let filterButtons = [];
 for (let element of works) {
-    genererElement(element);
-    if (!document.getElementById("filterbtn1") && element.category.name) {
-        const filterBtn1 = document.createElement("button");
-        filterBtn1.innerText = "Tous";
-        filterBtn1.setAttribute("value", "Tous");
-        filterBtn1.setAttribute("id", "filterbtn1");
-        filter.appendChild(filterBtn1);
-        filterButtons.push(filterBtn1)
-    } else {
-        console.log("Bouton Tous déja crée")
-    };
-    switch (element.category.name) {
-        case "Objets":
-            if (!document.getElementById("filterbtn2")) {
-                const filterBtn2 = document.createElement("button");
-                filterBtn2.innerText = "Objets";
-                filterBtn2.setAttribute("value", "Objets");
-                filterBtn2.setAttribute("id", "filterbtn2");
-                filter.appendChild(filterBtn2);
-                filterButtons.push(filterBtn2)
-            } else {
-                console.log("Catégorie déja crées")
-            };
-            break;
-        case "Appartements":
-            if (!document.getElementById("filterbtn3")) {
-                const filterBtn3 = document.createElement("button");
-                filterBtn3.innerText = "Appartements";
-                filterBtn3.setAttribute("value", "Appartements");
-                filterBtn3.setAttribute("id", "filterbtn3");
-                filter.appendChild(filterBtn3);
-                filterButtons.push(filterBtn3)
-            } else {
-                console.log("Catégorie déja crées")
-            };
-            break;
-        case "Hotels & restaurants":
-            if (!document.getElementById("filterbtn4")) {
-                const filterBtn4 = document.createElement("button");
-                filterBtn4.innerText = "Hôtels & restaurants";
-                filterBtn4.setAttribute("value", "Hotels & restaurants");
-                filterBtn4.setAttribute("id", "filterbtn4");
-                filter.appendChild(filterBtn4);
-                filterButtons.push(filterBtn4)
-            } else {
-                console.log("Catégorie déja crées")
-            };
-            break;
-        default:
-            console.log("Catégories indisponible")
-    }
+    genererElement(element)
 };
 
-/* - */
+const filter = document.querySelector("#filter");
+//Bouton "Tous"
+if (workCategories[0]) {
+    const allButton = document.createElement("button");
+    allButton.innerText = "Tous";
+    filter.appendChild(allButton)
 
-/* Implémentation des fonctions de filtres sur les boutons correspondants */
-
-for (let button of filterButtons) {
-    button.addEventListener("click", function () {
-        for (let button of filterButtons) {
-            button.style.backgroundColor = "white";
-            button.style.color = "#1D6154";
-        };
-        button.style.backgroundColor = "#1D6154";
-        button.style.color = "white";
-
-        if (button === document.getElementById("filterbtn1")) {
-            document.querySelector(".gallery").innerHTML = "";
-            for (let element of works) {
+    allButton.addEventListener("click", function(){
+        document.querySelector(".gallery").innerHTML = "";
+        for (let element of works) {
+            genererElement(element)
+        }
+    })
+} else {
+    console.log("Aucune catégorie trouvé")
+};
+//Boutons générés en fonction des catégories présentes
+for (let element of workCategories) {
+    const button = document.createElement("button");
+    button.setAttribute("id", element.id);
+    button.innerText = element.name;
+    filter.appendChild(button);
+    //Ajout de la fonction de filtre en fonction des catégories
+    button.addEventListener("click", function(){
+        document.querySelector(".gallery").innerHTML = "";
+        for (let element of works) {
+            if (button.id == element.categoryId) {
                 genererElement(element)
-            }
-        } else {
-            document.querySelector(".gallery").innerHTML = "";
-            for (let item of works) {
-                if (item.category.name !== button.value) {
-                    console.log("Element trier")
-                } else {
-                    genererElement(item)
-                }
             }
         }
     })
