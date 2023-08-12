@@ -1,7 +1,6 @@
 /* Récupération des travaux depuis l'API */
 
 function genererElement(element) {
-    console.log(element);
     const gallery = document.querySelector(".gallery");
     const figure = document.createElement("figure");
     const imageElement = document.createElement("img");
@@ -15,11 +14,9 @@ function genererElement(element) {
 
 let response = await fetch("http://localhost:5678/api/works");
 let works = await response.json();
-console.log(works);
 
 const categories = await fetch("http://localhost:5678/api/categories");
 const workCategories = await categories.json();
-console.log(workCategories);
 
 /* - */
 
@@ -36,7 +33,7 @@ if (workCategories[0]) {
     allButton.innerText = "Tous";
     filter.appendChild(allButton)
 
-    allButton.addEventListener("click", function(){
+    allButton.addEventListener("click", function () {
         document.querySelector(".gallery").innerHTML = "";
         for (let element of works) {
             genererElement(element)
@@ -52,7 +49,7 @@ for (let element of workCategories) {
     button.innerText = element.name;
     filter.appendChild(button);
     //Ajout de la fonction de filtre en fonction des catégories
-    button.addEventListener("click", function(){
+    button.addEventListener("click", function () {
         document.querySelector(".gallery").innerHTML = "";
         for (let element of works) {
             if (button.id == element.categoryId) {
@@ -136,6 +133,10 @@ document.querySelector("#modifier").addEventListener("click", function () {
         const modalContent_span_i = document.createElement("i");
         modalContent_span_i.setAttribute("class", "fa-solid fa-xmark");
         modalContent_span.appendChild(modalContent_span_i);
+        modalContent_span.addEventListener("click", function () {
+            document.querySelector("#modal").style.display = "none";
+            modalContent_articles.innerHTML = ""
+        });
 
         const modalContent_h2 = document.createElement("h2");
         modalContent_h2.innerText = "Galerie photo";
@@ -240,8 +241,8 @@ document.querySelector("#modifier").addEventListener("click", function () {
             modalAdd_span.appendChild(modalAdd_span_i_2);
             modalAdd_span_i_2.addEventListener("click", function () {
                 document.querySelector("#modal").style.display = "none";
-                modalContent_articles.innerHTML = "",
-                    document.querySelector("#modal-add").style.display = "none"
+                modalContent_articles.innerHTML = "";
+                document.querySelector("#modal-add").style.display = "none"
             });
 
             const modalAdd_h2 = document.createElement("h2");
@@ -277,16 +278,12 @@ document.querySelector("#modifier").addEventListener("click", function () {
             img.style.display = "none";
             inputFile.addEventListener("change", function () {
                 //Changement d'image
-                labelImg.removeAttribute("id", "label-img");
-                labelImg.setAttribute("id", "img-switch");
-                labelImg.innerHTML = "";
-
-                console.log(this.files);
                 const fichier = this.files[0];
 
                 if (fichier) {
 
-                    console.log(fichier);
+                    labelImg.style.display = "none"
+
                     const analyseur = new FileReader();
 
                     document.querySelector("#icon-image").style.display = "none";
@@ -297,6 +294,7 @@ document.querySelector("#modifier").addEventListener("click", function () {
                     analyseur.addEventListener("load", function () {
                         document.querySelector("#img").setAttribute("src", this.result)
                     })
+
                 }
 
             });
@@ -304,7 +302,7 @@ document.querySelector("#modifier").addEventListener("click", function () {
             const labelImg = document.createElement("label");
             labelImg.setAttribute("for", "input-img");
             labelImg.setAttribute("id", "label-img");
-            labelImg.innerText = "Ajouter une photo";
+            labelImg.innerText = "Ajouter une photo ";
             imgConteneur.appendChild(labelImg);
 
             const labelImg_i = document.createElement("i");
@@ -385,16 +383,13 @@ document.querySelector("#modifier").addEventListener("click", function () {
 
                 event.preventDefault();
 
-                const formData = new FormData();
-                formData.append("title", inputConteneur_div_input.value);
-                formData.append("image", inputFile.files[0]);
-                formData.append("category", select.value);
-
-                for (const value of formData.values()) {
-                    console.log(value);
-                };
-
                 async function addWorks() {
+
+                    const formData = new FormData();
+                    formData.append("title", inputConteneur_div_input.value);
+                    formData.append("image", inputFile.files[0]);
+                    formData.append("category", select.value);
+
                     const promise = await fetch("http://localhost:5678/api/works", {
                         method: 'POST',
                         headers: {
@@ -407,30 +402,32 @@ document.querySelector("#modifier").addEventListener("click", function () {
                         response = await fetch("http://localhost:5678/api/works");
                         works = await response.json();
                         document.querySelector(".gallery").innerHTML = "";
-                        document.querySelector("#modal-content-articles").innerHTML = "";
+                        modalContent_articles.innerHTML = "";
+                        document.querySelector("#modal-add").style.display = "none";
+                        document.querySelector("#modal").style.display = "none";
                         for (let element of works) {
-                            genererElement(element);
-                            addWorksInModal(element)
-                        }
+                            genererElement(element)
+                        };
+                        alert("Élément ajouté");
+                        //Reset des input
+                        document.querySelector("#icon-image").style.display = "flex";
+                        document.querySelector("#span-img").style.display = "flex";
+                        labelImg.style.display = "flex";
+                        document.querySelector("#img").src = "";
+                        modalAdd_form.reset()
                     } else {
                         console.log(promise.status);
                         alert("Impossible d'ajouter un nouvel élément");
                         throw new Error("Erreur dans la soumission du formulaire")
                     }
                 };
-                addWorks();
-                document.querySelector("#form").reset()
+                addWorks()
             })
         } else {
             document.querySelector("#modal-add").style.display = "flex"
         }
     });
     //Fermeture des modals
-    document.querySelector(".fa-xmark").addEventListener("click", function () {
-        document.querySelector("#modal").style.display = "none";
-        modalContent_articles.innerHTML = "";
-    });
-
     window.onclick = function (event) {
         if (event.target == modal) {
             document.querySelector("#modal").style.display = "none";
